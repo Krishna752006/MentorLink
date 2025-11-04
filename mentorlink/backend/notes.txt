@@ -1,0 +1,40 @@
+backend/
+├── config/
+│   └── db.js                    # Database connection
+├── controllers/
+│   └── authController.js        # Authentication logic (signUp, signIn) with JWT
+├── middleware/
+│   ├── authMiddleware.js        # JWT authentication middleware (protect)
+│   ├── corsConfig.js            # CORS configuration
+│   ├── errorHandler.js          # Error handling (notFound, errorHandler)
+│   └── requestLogger.js         # Request logging
+├── models/
+│   └── User.js                  # User schema & methods
+├── routes/
+│   └── authRoutes.js            # Auth route definitions
+├── utils/
+│   ├── gracefulShutdown.js      # Graceful server shutdown
+│   └── jwtUtils.js              # JWT token generation & verification
+├── .env                         # Environment variables (add JWT_SECRET!)
+├── .env.example                 # Example environment variables
+├── package.json                 # Dependencies (includes jsonwebtoken)
+└── server.js                    # Main application entry point
+
+=== SETUP INSTRUCTIONS ===
+
+1. Add JWT_SECRET to your .env file:
+   JWT_SECRET=your_super_secret_jwt_key_here_change_this_in_production
+
+2. Your .env should contain:
+   - MONGO_URI=mongodb://localhost:27017/mentorlink
+   - PORT=5001
+   - NODE_ENV=development
+   - JWT_SECRET=your_secret_key_here
+
+3. Auth endpoints now return JWT tokens:
+   - POST /api/auth/signup - Returns { success, message, token, user }
+   - POST /api/auth/signin - Returns { success, message, token, user }
+
+4. To protect routes, use the protect middleware:
+   import { protect } from "../middleware/authMiddleware.js";
+   router.get("/protected-route", protect, yourController);
