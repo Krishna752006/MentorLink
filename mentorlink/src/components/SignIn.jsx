@@ -13,19 +13,21 @@ const SignIn = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/signin",
-        formData
-      );
-      alert(res.data.message || "Login successful!");
-      // Navigate to dashboard if route exists
-      navigate("/dashboard");
-    } catch (err) {
-      alert(err.response?.data?.message || "Invalid credentials");
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "http://localhost:5001/api/auth/signin",
+      formData
+    );
+    if (res.data.token) {
+      localStorage.setItem("token", res.data.token);
     }
-  };
+    navigate("/dashboard");
+  } catch (err) {
+    alert(err.response?.data?.message || "Invalid credentials");
+  }
+};
+
 
   return (
     <div className="auth-container modern-bg">

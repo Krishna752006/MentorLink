@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import { generateToken } from "../utils/jwtUtils.js";
 
 /**
  * Sign Up Controller
@@ -46,12 +47,16 @@ export const signUp = async (req, res) => {
       password,
     });
 
+    // Generate JWT token
+    const token = generateToken(newUser._id);
+
     // Return user without password
     const userResponse = newUser.toJSON();
 
     res.status(201).json({
       success: true,
       message: "Account created successfully!",
+      token,
       user: {
         id: userResponse._id,
         fullName: userResponse.fullName,
@@ -120,12 +125,16 @@ export const signIn = async (req, res) => {
       });
     }
 
+    // Generate JWT token
+    const token = generateToken(user._id);
+
     // Return success response
     const userResponse = user.toJSON();
 
     res.status(200).json({
       success: true,
       message: "Login successful",
+      token,
       user: {
         id: userResponse._id,
         fullName: userResponse.fullName,
