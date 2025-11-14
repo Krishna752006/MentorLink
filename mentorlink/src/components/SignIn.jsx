@@ -14,11 +14,13 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+
   try {
     const res = await axios.post(
       "http://localhost:5001/api/auth/signin",
       formData
     );
+
     if (res.data.token) {
       localStorage.setItem("token", res.data.token);
     }
@@ -26,8 +28,8 @@ const SignIn = () => {
   } catch (err) {
     alert(err.response?.data?.message || "Invalid credentials");
   }
-};
 
+};
 
   return (
     <div className="auth-container modern-bg">
