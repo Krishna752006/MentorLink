@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --brand-primary: #7c3aed;
+    --brand-secondary: #a78bfa;
+    --brand-light: #ede9fe;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc;
+}
+
+.text-brand-primary {
+    color: var(--brand-primary);
+}
+
+.bg-brand-primary {
+    background-color: var(--brand-primary);
+}
+
+.bg-brand-light {
+    background-color: var(--brand-light);
+}
+
+.text-brand-secondary {
+    color: var(--brand-secondary);
+}
+
+.ring-brand-primary:focus {
+    --tw-ring-color: var(--brand-primary);
+}
+
+.hover\:bg-brand-secondary:hover {
+    background-color: var(--brand-secondary);
+}
+
+.focus\:ring-brand-primary:focus {
+    --tw-ring-color: var(--brand-primary);
+}
