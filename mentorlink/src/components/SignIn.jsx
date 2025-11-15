@@ -13,23 +13,27 @@ const SignIn = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const res = await axios.post(
-      "http://localhost:5001/api/auth/signin",
-      formData
-    );
-
-    if (res.data.token) {
-      localStorage.setItem("token", res.data.token);
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5001/api/auth/signin", formData);
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+      }
+      navigate("/dashboard");
+    } catch (err) {
+      alert(err.response?.data?.message || "Invalid credentials");
     }
-    navigate("/dashboard");
-  } catch (err) {
-    alert(err.response?.data?.message || "Invalid credentials");
-  }
+  };
 
-};
+  const handleGoogleSignIn = () => {
+    // Redirect to backend Google OAuth endpoint
+    window.location.href = "http://localhost:5001/api/auth/google";
+  };
+
+  const handleGithubSignIn = () => {
+    window.location.href = "http://localhost:5001/api/auth/github";
+  };
 
   return (
     <div className="auth-container modern-bg">
@@ -88,7 +92,10 @@ const SignIn = () => {
         <div className="divider"><span>Or continue with</span></div>
 
         <div className="social-buttons">
-          <button className="social-btn google">
+          <button 
+            className="social-btn google"
+            onClick={handleGoogleSignIn}
+          >
             <svg viewBox="0 0 24 24">
               <path
                 fill="#fff"
@@ -97,11 +104,14 @@ const SignIn = () => {
             </svg>
           </button>
 
-          <button className="social-btn github">
+          <button 
+            className="social-btn github"
+            onClick={handleGithubSignIn}
+          >
             <svg viewBox="0 0 24 24">
               <path
                 fill="#fff"
-                d="M12 .5C5.73.5.5 5.73.5 12c0 5.1 3.3 9.43 7.88 10.97.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.55-3.88-1.55-.53-1.36-1.3-1.73-1.3-1.73-1.06-.73.08-.72.08-.72 1.17.08 1.79 1.2 1.79 1.2 1.04 1.78 2.73 1.26 3.39.96.11-.75.41-1.26.74-1.55-2.56-.29-5.26-1.28-5.26-5.72 0-1.26.45-2.28 1.2-3.08-.12-.29-.52-1.46.12-3.04 0 0 .97-.31 3.18 1.18.92-.26 1.9-.38 2.87-.38.97 0 1.95.13 2.87.38 2.2-1.5 3.17-1.18 3.17-1.18.64 1.58.24 2.75.12 3.04.75.8 1.2 1.82 1.2 3.08 0 4.45-2.7 5.43-5.27 5.71.42.36.8 1.08.8 2.18 0 1.57-.01 2.84-.01 3.22 0 .31.21.68.8.56A10.92 10.92 0 0022 12c0-6.27-5.23-11.5-12-11.5z"
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
               />
             </svg>
           </button>

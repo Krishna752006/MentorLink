@@ -16,7 +16,6 @@ backend/
 │   ├── gracefulShutdown.js      # Graceful server shutdown
 │   └── jwtUtils.js              # JWT token generation & verification
 ├── .env                         # Environment variables (add JWT_SECRET!)
-├── .env.example                 # Example environment variables
 ├── package.json                 # Dependencies (includes jsonwebtoken)
 └── server.js                    # Main application entry point
 

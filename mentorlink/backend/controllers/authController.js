@@ -139,6 +139,7 @@ export const signIn = async (req, res) => {
         id: userResponse._id,
         fullName: userResponse.fullName,
         email: userResponse.email,
+        profilePicture: userResponse.profilePicture,
       },
     });
   } catch (err) {
@@ -147,5 +148,31 @@ export const signIn = async (req, res) => {
       success: false,
       message: "Server error during login",
     });
+  }
+};
+
+/**
+ * Google OAuth Callback
+ * Handles the callback after Google has authenticated the user
+ */
+export const googleCallback = async (req, res) => {
+  try {
+    // Generate JWT token
+    const token = generateToken(req.user._id);
+    
+    // Redirect to frontend with token and user data
+    res.redirect(
+      `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: req.user._id,
+        fullName: req.user.fullName,
+        email: req.user.email,
+        profilePicture: req.user.profilePicture,
+      }))}`
+    );
+  } catch (err) {
+    console.error("[Google Callback Error]", err);
+    res.redirect(
+      `${process.env.FRONTEND_URL || 'http://localhost:3000'}/login?error=google_auth_failed`
+    );
   }
 };
